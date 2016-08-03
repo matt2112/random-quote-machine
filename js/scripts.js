@@ -7,10 +7,10 @@ function Quote(quote, author) {
 
 var addTwitterBtn = function (text) {
     var tweetBtn = $('<a></a>')
-        .attr('id', 'tweetBtn')
+        .addClass('nya')
         .addClass('twitter-share-button')
-        .attr('href', 'http://twitter.com/share')
-        .attr('data-url', 'http://codepen.io/matt2112')
+        .attr('href', 'https://twitter.com/intent/tweet')
+        .attr('data-url', ' ')
         .attr('data-size', 'large')
         .attr('data-text', text)
     $('#tweetContainer').append(tweetBtn);
