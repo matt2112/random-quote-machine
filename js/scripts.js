@@ -5,14 +5,30 @@ function Quote(quote, author) {
     this.author = author;
 }
 
+var addTwitterBtn = function (text) {
+    var tweetBtn = $('<a></a>')
+        .attr('id', 'tweetBtn')
+        .addClass('twitter-share-button')
+        .attr('href', 'http://twitter.com/share')
+        .attr('data-url', 'http://codepen.io/matt2112')
+        .attr('data-size', 'large')
+        .attr('data-text', text)
+    $('#tweetContainer').append(tweetBtn);
+    twttr.widgets.load();
+}
+
 $.getJSON("https://api.myjson.com/bins/5ckr3", function (data) {
     $.each(data, function (key, val) {
         quotes.push(new Quote(val.quote, val.author));
     });
-    console.log(quotes);
     var firstQuote = quotes[Math.floor(Math.random() * quotes.length)];
+    $("#words").hide();
+    $("#author").hide();
     $("#words").html(firstQuote.words);
-    $("#author").html(firstQuote.author);
+    $("#author").html("- " + firstQuote.author);
+    $("#words").fadeIn();
+    $("#author").fadeIn();
+    addTwitterBtn(firstQuote.words + " - " + firstQuote.author);
 });
 
 $("#newQuote").on("click", function () {
@@ -24,28 +40,7 @@ $("#newQuote").on("click", function () {
     $("#author").html("- " + anotherQuote.author);
     $("#words").fadeIn();
     $("#author").fadeIn();
-});
 
-$('#tweetBtn a').remove();
-var tweet = $("#words").html();
-var tweetBtn = $('<a></a>')
-    .addClass('twitter-share-button')
-    .attr('href', 'http://twitter.com/share')
-    .attr('data-url', 'http://codepen.io/matt2112')
-    .attr('data-text', tweet);
-$('#tweetBtn').append(tweetBtn);
-
-$('#newQuote').on('click', function (ev) {
-    tweet = document.getElementById("words").innerHTML;
-    ev.preventDefault();
-    // Remove existing iframe
-    $('#tweetBtn iframe').remove();
-    // Generate new markup
-    var tweetBtn = $('<a></a>')
-        .addClass('twitter-share-button')
-        .attr('href', 'http://twitter.com/share')
-        .attr('data-url', 'http://codepen.io/matt2112')
-        .attr('data-text', tweet);
-    $('#tweetBtn').append(tweetBtn);
-    twttr.widgets.load();
+    $('#tweetContainer iframe').remove();
+    addTwitterBtn(anotherQuote.words + " - " + anotherQuote.author);
 });
